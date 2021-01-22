@@ -8,45 +8,46 @@ Eclipse Collections Cookbook
 | `ArrayList` | `MutableList` (`FastList`) |
 | `HashSet` | `MutableSet` (`UnifiedSet`) |
 | `HashMap` | `MutableMap` (`UnifiedMap`) |
-| `List.of("x", "y");` | `Lists.mutable.of("x", "y");` |
+| `List.of("x", "y")` | `Lists.mutable.of("x", "y")` |
 
-## New Types
+## New Types With No Direct Java Equivalent
 
-| New Eclipse Collections Type | Java Equivalent |
-| ---------------------------- | --------------- |
-| `MutableBag` | `Map<K, Integer>` |
+| New Eclipse Collections Type | Java Equivalent | Example Use |
+| ---------------------------- | --------------- | ----------- |
+| `Bag` | `Map<K, Integer>` | Track the count of each UserType |
+| `Multimap` | `Map<K, Collection<V>>` | Group users by last name |
 
 ## Creating
 
+| What I Want | Mutable Version | Immutable Version |
+| ----------- | --------------- | ----------------- |
+| Create a List | `Lists.mutable.empty()` | `Lists.immutable.empty()` |
+| Create a Set | `Sets.mutable.empty()` | `Sets.immutable.empty()` |
+| Create a SortedSet | `SortedSets.mutable.empty()` | `SortedSets.immutable.empty()` |
+| Create a Bag | `Bags.mutable.empty()` | `Bags.immutable.empty()` |
+| Create a SortedBag | `SortedBags.mutable.empty()` | `SortedBags.immutable.empty()` |
+| Create a Stack | `Stacks.mutable.empty()` | `Stacks.immutable.empty()` |
+| Create a Map | `Maps.mutable.empty()` | `Maps.immutable.empty()` |
+| Create a SortedMap | `SortedMaps.mutable.empty()` | `SortedMaps.immutable.empty()` |
+| Create a BiMap | `BiMaps.mutable.empty()` | `BiMaps.immutable.empty()` |
+| Create a Multimap | `Multimaps.mutable.empty()` | `Multimaps.immutable.empty()` |
+| Create a collection with items | e.g. `Lists.mutable.of("x", "y")` | e.g. `Lists.immutable.of("x", "y")` |
+| Create a Pair | `Tuples.pair("key", "val")` | n/a |
+
+## Transformations
+
 | What I Want | How to Get It |
-| -------- | --- |
-| Create a mutable List | `Lists.mutable.empty()` |
-| Create an immutable List | `Lists.immutable.empty()` |
-| Create a mutable Set | `Sets.mutable.empty()` |
-| Create an immutable Set | `Sets.immutable.empty()` |
-| Create a mutable Bag | `Bags.mutable.empty()` |
-| Create an immutable Bag | `Bags.immutable.empty()` |
-| Create a mutable Stack | `Stacks.mutable.empty()` |
-| Create an immutable Stack | `Stacks.immutable.empty()` |
-| Create a mutable SortedBag | `SortedBags.mutable.empty()` |
-| Create an immutable SortedBag | `SortedBags.immutable.empty()` |
-| Create a mutable SortedSet | `SortedSets.mutable.empty()` |
-| Create an immutable SortedSet | `SortedSets.immutable.empty()` |
-| Create a mutable Map | `Maps.mutable.empty()` |
-| Create an immutable Map | `Maps.immutable.empty()` |
-| Create a mutable SortedMap | `SortedMaps.mutable.empty()` |
-| Create an immutable SortedMap | `SortedMaps.immutable.empty()` |
-| Create a mutable BiMap | `BiMaps.mutable.empty()` |
-| Create an immutable BiMap | `BiMaps.immutable.empty()` |
-| Create a mutable Multimap | `Multimaps.mutable.empty()` |
-| Create an immutable Multimap | `Multimaps.immutable.empty()` |
-| Create a collection with items | e.g. `Lists.mutable.of("x", "y");` |
-| Create an immutable from a mutable | e.g. `Lists.mutable.of("x", "y").toImmutable();` |
+| ----------- | ------------- |
+| Count occurrence of items in a list | `list.toBag()` |
+| Group items in a list | `list.groupBy(groupFunc)` |
+| Collect from a list but put results in a set | `list.collect(function, Sets.mutable.empty())` |
+| Count the number of users in California | `users.countBy(User::getState)` |
 
 ## Immutables
 
 | What I Want | How to Get It |
 | ----------- | ------------- |
+| Create an immutable from a mutable | `list.toImmutable()` |
 | Copy an immutable collection and add one item | e.g. `myImmutableList.newWith("x");` |
 | Copy an immutable collection and add many items | e.g. `myImmutableList.newWithAll(items);` |
 | Copy an immutable collection and remove one item | e.g. `myImmutableList.newWithout("x");` |
@@ -62,3 +63,8 @@ Eclipse Collections Cookbook
     <version>11.0.0.M1</version>
 </dependency>
 ```
+
+## Notes
+
+- In examples I default to using `List`, but the content usually applies to _all_ Eclipse Collections types, e.g. `Set`, `Bag`, `Multimap`, etc.
+- During object creation, I default to using `.of()`, e.g. `Lists.mutable.of("x", "y")` and not `.with()`, e.g. `Lists.mutable.with("x", "y")`, because it is most similar to Java 9 syntax
