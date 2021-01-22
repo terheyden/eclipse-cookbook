@@ -16,6 +16,7 @@ Eclipse Collections Cookbook
 | ---------------------------- | --------------- | ----------- |
 | `Bag` | `Map<K, Integer>` | Track the count of each UserType |
 | `Multimap` | `Map<K, Collection<V>>` | Group users by last name |
+| `IntList` | `List<Integer>` | List of user IDs |
 
 ## Creating
 
@@ -34,11 +35,19 @@ Eclipse Collections Cookbook
 | Create a collection with items | e.g. `Lists.mutable.of("x", "y")` | e.g. `Lists.immutable.of("x", "y")` |
 | Create a Pair | `Tuples.pair("key", "val")` | n/a |
 
+## Converting from Java streams to Eclipse Collections
+
+```java
+ImmutableList<String> list = List.of("x", "y")
+    .stream()
+    .collect(Collectors2.toImmutableList());
+```
+
 ## Transformations
 
 | What I Want | How to Get It |
 | ----------- | ------------- |
-| Count occurrence of items in a list | `list.toBag()` |
+| Count occurrences of items in a list | `list.toBag()` |
 | Group items in a list | `list.groupBy(groupFunc)` |
 | Collect from a list but put results in a set | `list.collect(function, Sets.mutable.empty())` |
 | Count the number of users in California | `users.countBy(User::getState)` |
@@ -47,11 +56,11 @@ Eclipse Collections Cookbook
 
 | What I Want | How to Get It |
 | ----------- | ------------- |
-| Create an immutable from a mutable | `list.toImmutable()` |
-| Copy an immutable collection and add one item | e.g. `myImmutableList.newWith("x");` |
-| Copy an immutable collection and add many items | e.g. `myImmutableList.newWithAll(items);` |
-| Copy an immutable collection and remove one item | e.g. `myImmutableList.newWithout("x");` |
-| Copy an immutable collection and remove many items | e.g. `myImmutableList.newWithoutAll(items);` |
+| Create an immutable copy from a mutable | `list.toImmutable()` |
+| Copy an immutable and add one item | e.g. `myImmutableList.newWith("x");` |
+| Copy an immutable and add many items | e.g. `myImmutableList.newWithAll(items);` |
+| Copy an immutable and remove one item | e.g. `myImmutableList.newWithout("x");` |
+| Copy an immutable and remove many items | e.g. `myImmutableList.newWithoutAll(items);` |
 
 ## Maven
 
