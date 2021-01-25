@@ -1,22 +1,15 @@
-# eclipse-cookbook
-Eclipse Collections Cookbook
+# Eclipse Collections Cookbook
 
-## Converting Types
+## How to read the cookbook
 
-| Java Collection | Eclipse Collections Equivalent |
-| --------------- | ------------------------------ |
-| `ArrayList` | `MutableList` (`FastList`) |
-| `HashSet` | `MutableSet` (`UnifiedSet`) |
-| `HashMap` | `MutableMap` (`UnifiedMap`) |
-| `List.of("x", "y")` | `Lists.mutable.of("x", "y")` |
+- For most things, there is both a mutable and immutable equivalent. For example:
+```java
+Lists.mutable.empty();
+Lists.immutable.empty();
+```
 
-## New Types With No Direct Java Equivalent
+## What are the Eclipse Collections types?
 
-| New Eclipse Collections Type | Java Equivalent | Example Use |
-| ---------------------------- | --------------- | ----------- |
-| `Bag` | `Map<K, Integer>` | Track the count of each UserType |
-| `Multimap` | `Map<K, Collection<V>>` | Group users by last name |
-| `IntList` | `List<Integer>` | List of user IDs |
 
 ## Creating
 
