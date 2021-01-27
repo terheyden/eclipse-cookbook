@@ -1,15 +1,70 @@
 # Eclipse Collections Cookbook
 
-## How to read the cookbook
+## Notes about the cookbook
 
-- For most things, there is both a mutable and immutable equivalent. For example:
+- Every Eclipse Collections type has both a mutable and immutable equivalent. For example:
 ```java
 Lists.mutable.empty();
 Lists.immutable.empty();
 ```
+- For brevity, only one will be referenced in each section
+- I like to use `List` types in examples, but they usually apply to _all_ Eclipse Collections types unless otherwise noted
+- I abbreviate `Eclipse Collections` as `EC` in places
+- These two methods are equivalent for all EC types:
+```java
+Lists.mutable.of("x", "y");
+Lists.mutable.with("x", "y");
+```
+- In the cookbook I always use `.of()` because it is most similar to Java 9 syntax
+
+## Eclipse Collections dependencies
+
+### Maven
+
+```
+<!-- Eclipse Collections - advanced data structures -->
+<!-- https://mvnrepository.com/artifact/org.eclipse.collections/eclipse-collections -->
+<dependency>
+    <groupId>org.eclipse.collections</groupId>
+    <artifactId>eclipse-collections</artifactId>
+    <version>11.0.0.M1</version>
+</dependency>
+
+<!-- "Verify" class of asserts for Eclipse Collections -->
+<!-- https://mvnrepository.com/artifact/org.eclipse.collections/eclipse-collections-testutils -->
+<dependency>
+    <groupId>org.eclipse.collections</groupId>
+    <artifactId>eclipse-collections-testutils</artifactId>
+    <version>11.0.0.M1</version>
+    <scope>test</scope>
+</dependency>
+```
 
 ## What are the Eclipse Collections types?
 
+| EC Type | Java Equivalent | Useful for |
+| ------- | --------------- | ---------- |
+| `List<>` | `List<>` | Non-unique ordered collection |
+| `Set<>` | `Set<>` | Unique non-ordered collection |
+| `SortedSet<>` | `SortedSet<>` | Unique, sorted, ordered collection |
+| `Bag<>` | `Map<K, Integer>` | Storing occurrences of items |
+| `SortedBag<>` | `SortedMap<K, Integer>` | Storing and sorting by occurrence |
+| `Stack<>` | `Stack<>` | LIFO queue |
+| `Map<>` | `Map<>` | Collection of key-value pairs |
+| `SortedMap<>` | `SortedMap<>` | Sorted, ordered collection of key-value pairs |
+| `BiMap<>` | Use two maps | Map that can lookup in both directions with unique keys and values |
+| `Multimap<>` | `Map<K, Collection<V>>` | Map with multiple values |
+| `Partition<>` | `Map<Boolean, Collection<V>>` | Collection of selected items and rejected items |
+| `Pair<>` | `Map.Entry<>` | Grouping of two items |
+| `PrimitiveList<>` | Boxed | Extremely memory-efficient collection |
+| `PrimitiveSet<>` | Boxed | Extremely memory-efficient collection |
+| `PrimitiveStack<>` | Boxed | Extremely memory-efficient collection |
+| `PrimitiveBag<>` | Boxed | Extremely memory-efficient collection |
+| `PrimitiveMap<>` | Boxed | Extremely memory-efficient collection |
+| `PrimitiveStream<>` | Boxed* | Extremely memory-efficient collection |
+
+- *Java does have IntStream, LongStream, and DoubleStream.
+- Primitive types are: `Int`, `Long`, `Float`, `Char`, `Byte`, `Boolean`, `Short`, `Double`
 
 ## Creating
 
@@ -36,6 +91,17 @@ ImmutableList<String> list = List.of("x", "y")
     .collect(Collectors2.toImmutableList());
 ```
 
+## Converting from Eclipse Collections to Java Collections
+
+```java
+// Mutable types can be cast directly to Java types:
+List<String> list1 = Lists.mutable.of("x", "y");
+
+// Immutable types have a helper method:
+List<String> list2 = Lists.immutable.of("x", "y").castToList();
+List<String> list3 = Lists.immutable.of("x", "y").castToCollection();
+```
+
 ## Transformations
 
 | What I Want | How to Get It |
@@ -54,19 +120,3 @@ ImmutableList<String> list = List.of("x", "y")
 | Copy an immutable and add many items | e.g. `myImmutableList.newWithAll(items);` |
 | Copy an immutable and remove one item | e.g. `myImmutableList.newWithout("x");` |
 | Copy an immutable and remove many items | e.g. `myImmutableList.newWithoutAll(items);` |
-
-## Maven
-
-```
-<!-- https://mvnrepository.com/artifact/org.eclipse.collections/eclipse-collections -->
-<dependency>
-    <groupId>org.eclipse.collections</groupId>
-    <artifactId>eclipse-collections</artifactId>
-    <version>11.0.0.M1</version>
-</dependency>
-```
-
-## Notes
-
-- In examples I default to using `List`, but the content usually applies to _all_ Eclipse Collections types, e.g. `Set`, `Bag`, `Multimap`, etc.
-- During object creation, I default to using `.of()`, e.g. `Lists.mutable.of("x", "y")` and not `.with()`, e.g. `Lists.mutable.with("x", "y")`, because it is most similar to Java 9 syntax
