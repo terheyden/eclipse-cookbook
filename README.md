@@ -1,5 +1,17 @@
 # Eclipse Collections Cookbook
 
+## Contents
+
+- [Notes about the cookbook](#notes-about-the-cookbook)
+- [Eclipse Collections dependencies](#eclipse-collections-dependencies)
+  * [Maven](#maven)
+- [What are the Eclipse Collections types?](#what-are-the-eclipse-collections-types)
+- [Creating](#creating)
+- [Converting from Java streams to Eclipse Collections](#converting-from-java-streams-to-eclipse-collections)
+- [Converting from Eclipse Collections to Java Collections](#converting-from-eclipse-collections-to-java-collections)
+- [Transformations](#transformations)
+- [Immutables](#immutables)
+
 ## Notes about the cookbook
 
 - Every Eclipse Collections type has both a mutable and immutable equivalent. For example:
