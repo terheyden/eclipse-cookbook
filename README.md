@@ -80,26 +80,38 @@ Lists.mutable.with("x", "y");
 
 ## Creating
 
-| What I Want | Mutable Version | Immutable Version |
-| ----------- | --------------- | ----------------- |
-| Create a List | `Lists.mutable.empty()` | `Lists.immutable.empty()` |
-| Create a Set | `Sets.mutable.empty()` | `Sets.immutable.empty()` |
-| Create a SortedSet | `SortedSets.mutable.empty()` | `SortedSets.immutable.empty()` |
-| Create a Bag | `Bags.mutable.empty()` | `Bags.immutable.empty()` |
-| Create a SortedBag | `SortedBags.mutable.empty()` | `SortedBags.immutable.empty()` |
-| Create a Stack | `Stacks.mutable.empty()` | `Stacks.immutable.empty()` |
-| Create a Map | `Maps.mutable.empty()` | `Maps.immutable.empty()` |
-| Create a SortedMap | `SortedMaps.mutable.empty()` | `SortedMaps.immutable.empty()` |
-| Create a BiMap | `BiMaps.mutable.empty()` | `BiMaps.immutable.empty()` |
-| Create a Multimap | `Multimaps.mutable.empty()` | `Multimaps.immutable.empty()` |
-| Create a collection with items | e.g. `Lists.mutable.of("x", "y")` | e.g. `Lists.immutable.of("x", "y")` |
-| Create a Pair | `Tuples.pair("key", "val")` | n/a |
+| What I want | How to make | Type hierarchy |
+| ----------- | ----------- | -------------- |
+| Create a List | `Lists.mutable.empty()` | `MutableList`, `ListIterable` |
+| Create a Set | `Sets.mutable.empty()` | `MutableSet`, `UnsortedSetIterable` |
+| Create a SortedSet | `SortedSets.mutable.empty()` | `MutableSortedSet`, `SortedSetIterable` |
+| Create a Bag | `Bags.mutable.empty()` | `MutableBag`, `UnsortedBag` |
+| Create a SortedBag | `SortedBags.mutable.empty()` | `MutableSortedBag`, `SortedBag` |
+| Create a Stack | `Stacks.mutable.empty()` | `MutableStack`, `StackIterable` |
+| Create a Map | `Maps.mutable.empty()` | `MutableMap`, `UnsortedMapIterable` |
+| Create a SortedMap | `SortedMaps.mutable.empty()` | `MutableSortedMap`, `SortedMapIterable` |
+| Create a BiMap | `BiMaps.mutable.empty()` | `MutableBiMap`, `BiMap` |
+| Create a Multimap | `Multimaps.mutable.empty()` | `MutableListMultimap`, `ListMultimap` |
+| Create a Pair | `Tuples.pair("one", 2)` | `Pair` |
+| Create a Triple | `Tuples.triple(1, "two", 3)` | `Triple` |
+| Create an Interval (range) | `IntInterval.from(0).to(9).by(2)` | `IntInterval`, `IntIterable` |
 
 ## Converting from Java streams to Eclipse Collections
 
 ```java
-ImmutableList<String> list = List.of("x", "y")
-    .stream()
+// Use ofAll() or withAll():
+
+List<String> jlist1 = List.of("x", "y");
+ImmutableList<String> ecList1 = Lists.immutable.ofAll(jlist1);
+
+Map<String, String> jmap1 = Map.of("x", "y");
+ImmutableMap<String, String> ecMap1 = Maps.immutable.ofAll(jmap1);
+
+// With streams, use Collectors2:
+
+List<String> jlist2 = List.of("x", "y");
+
+ImmutableList<String> ecList2 = jlist2.stream()
     .collect(Collectors2.toImmutableList());
 ```
 
@@ -107,11 +119,12 @@ ImmutableList<String> list = List.of("x", "y")
 
 ```java
 // Mutable types can be cast directly to Java types:
-List<String> list1 = Lists.mutable.of("x", "y");
+List<String> jlist3 = Lists.mutable.of("x", "y");
+Map<String, String> jmap2 = Maps.mutable.of("x", "y");
 
 // Immutable types have a helper method:
-List<String> list2 = Lists.immutable.of("x", "y").castToList();
-List<String> list3 = Lists.immutable.of("x", "y").castToCollection();
+List<String> jlist4 = Lists.immutable.of("x", "y").castToList();
+Collection<String> jcoll1 = Lists.immutable.of("x", "y").castToCollection();
 ```
 
 ## Transformations
