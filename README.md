@@ -7,9 +7,9 @@
   * [Maven](#maven)
 - [What are the Eclipse Collections types?](#what-are-the-eclipse-collections-types)
 - [Creating](#creating)
-- [Converting from Java streams to Eclipse Collections](#converting-from-java-streams-to-eclipse-collections)
+- [Converting from Java collections (JCF) to Eclipse Collections](#converting-from-java-collections--jcf--to-eclipse-collections)
 - [Converting from Eclipse Collections to Java Collections](#converting-from-eclipse-collections-to-java-collections)
-- [Transformations](#transformations)
+- [Basic transformations](#basic-transformations)
 - [Immutables](#immutables)
 
 ## Notes about the cookbook
@@ -96,7 +96,18 @@ Lists.mutable.with("x", "y");
 | Create a Triple | `Tuples.triple(1, "two", 3)` | `Triple` |
 | Create an Interval (range) | `IntInterval.from(0).to(9).by(2)` | `IntInterval`, `IntIterable` |
 
-## Converting from Java streams to Eclipse Collections
+So for example:
+```java
+// Java (JCF):
+List<String> javaList = new ArrayList<>();
+
+// Eclipse Collections (EC):
+MutableList<String> mutableEcList = Lists.mutable.empty();
+// Mutation-agnostic version (for example, as a method parameter):
+ListIterable<String> ecList = mutableEcList;
+```
+
+## Converting from Java collections (JCF) to Eclipse Collections
 
 ```java
 // Use ofAll() or withAll():
@@ -122,12 +133,31 @@ ImmutableList<String> ecList2 = jlist2.stream()
 List<String> jlist3 = Lists.mutable.of("x", "y");
 Map<String, String> jmap2 = Maps.mutable.of("x", "y");
 
-// Immutable types have a helper method:
+// Immutable types have helper methods:
 List<String> jlist4 = Lists.immutable.of("x", "y").castToList();
 Collection<String> jcoll1 = Lists.immutable.of("x", "y").castToCollection();
 ```
 
-## Transformations
+## Basic transformations
+
+```java
+// select() performs a filter.
+ImmutableList<Pet> oldCats = cats.select(cat -> cat.age() > 10);
+
+// reject() performs a negative filter.
+ImmutableList<Pet> oldCats2 = cats.reject(cat -> cat.age() <= 10);
+
+// collect() performs a mapping.
+ImmutableList<String> catNames = cats.collect(Pet::name);
+ImmutableIntList catAges = cats.collectInt(Pet::age);
+
+// flatCollect() of course flattens iterables.
+ImmutableList<Pet> allPets = users.flatCollect(User::pets);
+
+// detect() selects one and returns it.
+Pet mika = cats.detect(cat -> cat.name().equalsIgnoreCase("Mika"));
+int mikaIndex = cats.detectIndex(cat -> cat.name().equalsIgnoreCase("Mika"));
+```
 
 | What I Want | How to Get It |
 | ----------- | ------------- |
