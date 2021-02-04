@@ -2,17 +2,19 @@
 
 ## Contents
 
-- [Notes about the cookbook](#notes-about-the-cookbook)
+- [About the cookbook](#about-the-cookbook)
 - [Eclipse Collections dependencies](#eclipse-collections-dependencies)
   * [Maven](#maven)
-- [What are the Eclipse Collections types?](#what-are-the-eclipse-collections-types)
-- [Creating](#creating)
-- [Converting from Java collections (JCF) to Eclipse Collections](#converting-from-java-collections--jcf--to-eclipse-collections)
+- [Eclipse Collections types](#eclipse-collections-types)
+- [Getting started](#getting-started)
+- [Creating Eclipse Collections](#creating-eclipse-collections)
+- [Converting from Java collections (JCF) to Eclipse Collections](#converting-from-java-collections-jcf-to-eclipse-collections)
 - [Converting from Eclipse Collections to Java Collections](#converting-from-eclipse-collections-to-java-collections)
 - [Basic transformations](#basic-transformations)
-- [Immutables](#immutables)
+  * [Other transformations](#other-transformations)
+- [Immutable collections](#immutable-collections)
 
-## Notes about the cookbook
+## About the cookbook
 
 - Every Eclipse Collections type has both a mutable and immutable equivalent. For example:
 ```java
@@ -34,25 +36,33 @@ Lists.mutable.with("x", "y");
 ### Maven
 
 ```
-<!-- Eclipse Collections - advanced data structures -->
+<!-- You really only need this dependency -->
 <!-- https://mvnrepository.com/artifact/org.eclipse.collections/eclipse-collections -->
 <dependency>
     <groupId>org.eclipse.collections</groupId>
     <artifactId>eclipse-collections</artifactId>
-    <version>11.0.0.M1</version>
+    <version>${eclipse.version}</version>
 </dependency>
 
-<!-- "Verify" class of asserts for Eclipse Collections -->
+<!-- If you use Jackson, this adds support for Eclipse Collections -->
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-eclipse-collections -->
+<dependency>
+    <groupId>com.fasterxml.jackson.datatype</groupId>
+    <artifactId>jackson-datatype-eclipse-collections</artifactId>
+    <version>${jackson.version}</version>
+</dependency>
+
+<!-- Testing dependency - adds "Verify" class of asserts for collections -->
 <!-- https://mvnrepository.com/artifact/org.eclipse.collections/eclipse-collections-testutils -->
 <dependency>
     <groupId>org.eclipse.collections</groupId>
     <artifactId>eclipse-collections-testutils</artifactId>
-    <version>11.0.0.M1</version>
+    <version>${eclipse.version}</version>
     <scope>test</scope>
 </dependency>
 ```
 
-## What are the Eclipse Collections types?
+## Eclipse Collections types
 
 | EC Type | Java Equivalent | Useful for |
 | ------- | --------------- | ---------- |
@@ -78,7 +88,15 @@ Lists.mutable.with("x", "y");
 - *Java does have IntStream, LongStream, and DoubleStream.
 - Primitive types are: `Int`, `Long`, `Float`, `Char`, `Byte`, `Boolean`, `Short`, `Double`
 
-## Creating
+## Getting started
+
+- [Chapter 15](https://eclipse.github.io/eclipse-collections-kata/company-kata/#/15) of the [Company Kata](https://github.com/eclipse/eclipse-collections-kata/tree/master/company-kata) has a good overview of adapting from Java to Eclipse Collections
+- I suggest going through the [Eclipse Collections Katas](https://github.com/eclipse/eclipse-collections-kata) in order
+  - For each Kata, click on its name
+  - Scroll down and click on "Presentation Format"
+- The [Eclipse Collections guide](https://github.com/eclipse/eclipse-collections/blob/master/docs/guide.md) is a comprehensive read
+
+## Creating Eclipse Collections
 
 | What I want | How to make | Type hierarchy |
 | ----------- | ----------- | -------------- |
@@ -159,6 +177,8 @@ Pet mika = cats.detect(cat -> cat.name().equalsIgnoreCase("Mika"));
 int mikaIndex = cats.detectIndex(cat -> cat.name().equalsIgnoreCase("Mika"));
 ```
 
+### Other transformations
+
 | What I Want | How to Get It |
 | ----------- | ------------- |
 | Count occurrences of items in a list | `list.toBag()` |
@@ -166,7 +186,7 @@ int mikaIndex = cats.detectIndex(cat -> cat.name().equalsIgnoreCase("Mika"));
 | Collect from a list but put results in a set | `list.collect(function, Sets.mutable.empty())` |
 | Count the number of users in California | `users.countBy(User::getState)` |
 
-## Immutables
+## Immutable collections
 
 | What I Want | How to Get It |
 | ----------- | ------------- |
