@@ -78,15 +78,13 @@ Lists.mutable.with("x", "y");
 | `Multimap<>` | `Map<K, Collection<V>>` | Map with multiple values |
 | `Partition<>` | `Map<Boolean, Collection<V>>` | Collection of selected items and rejected items |
 | `Pair<>` | `Map.Entry<>` | Grouping of two items |
-| `PrimitiveList<>` | Boxed | Extremely memory-efficient collection |
-| `PrimitiveSet<>` | Boxed | Extremely memory-efficient collection |
-| `PrimitiveStack<>` | Boxed | Extremely memory-efficient collection |
-| `PrimitiveBag<>` | Boxed | Extremely memory-efficient collection |
-| `PrimitiveMap<>` | Boxed | Extremely memory-efficient collection |
-| `PrimitiveStream<>` | Boxed* | Extremely memory-efficient collection |
+| `IntList<>` | Boxed | Extremely memory-efficient collection |
+| `IntSet<>` | Boxed | Extremely memory-efficient collection |
+| `IntStack<>` | Boxed | Extremely memory-efficient collection |
+| `IntBag<>` | Boxed | Extremely memory-efficient collection |
+| `IntObjectMap<>` | Boxed | Extremely memory-efficient collection |
 
-- *Java does have IntStream, LongStream, and DoubleStream.
-- Primitive types are: `Int`, `Long`, `Float`, `Char`, `Byte`, `Boolean`, `Short`, `Double`
+- Primitive types are, of course: `int`, `long`, `float`, `char`, `byte`, `boolean`, `short`, and `double`
 
 ## Getting started
 
@@ -124,6 +122,16 @@ MutableList<String> mutableEcList = Lists.mutable.empty();
 // Mutation-agnostic version (for example, as a method parameter):
 ListIterable<String> ecList = mutableEcList;
 ```
+
+## Creating Primitive Types
+
+| What I want | How to make | Type hierarchy |
+| ----------- | ----------- | -------------- |
+| List of ints | `IntLists.immutable.of()` | `IntIterable`, `IntList` |
+| Set of ints | `IntSets.immutable.of()` | `IntIterable`, `IntSet` |
+| Stack of ints | `IntStacks.immutable.of()` | `IntIterable`, `IntStack` |
+| Bag of ints | `IntBags.immutable.of()` | `IntIterable`, `IntBag` |
+| Map with int keys | `IntObjectMaps.immutable.of()` | `PrimitiveIterable`, `IntValuesMap` |
 
 ## Converting from Java collections (JCF) to Eclipse Collections
 
